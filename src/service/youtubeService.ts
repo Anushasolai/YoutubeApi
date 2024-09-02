@@ -7,7 +7,7 @@ import { VideoStatistics } from "../entities/VedioEntity";
 const API_KEY = process.env.API_KEY;
 const CHANNEL_ID = process.env.CHANNEL_ID;
 
-// const fetchAndStorePlaylists=async()=>{}
+
 export const fetchAndStorePlaylists = async () => {
   const url = `https://youtube.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${CHANNEL_ID}&key=${API_KEY}`;
 
@@ -35,7 +35,7 @@ export const fetchAndStorePlaylists = async () => {
       await playlistRepository.save(newPlaylist);
       console.log(`Playlist ${newPlaylist.title} saved to the database.`);
 
-      // Pass playlistId and channelId to fetchAndStorePlaylistItems
+     
       await fetchAndStorePlaylistItems(playlist.id, playlist.snippet.channelId);
     }
 
