@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { PlaylistItem } from "./PlayListItemEntity";
 
 @Entity()
 export class Playlist {
@@ -23,19 +24,18 @@ export class Playlist {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
-
-  @Column('json')
-  thumbnails: any; 
+  @Column("jsonb")
+  thumbnails: any;
 
   @Column()
   channelTitle: string;
 
-  @Column('json')
+  @Column("jsonb")
   localized: any;
 
   @Column()
   itemCount: number;
-  items: any;
+
+  @OneToMany(() => PlaylistItem, (playlistItem) => playlistItem.playlist)
+  items: PlaylistItem[];
 }

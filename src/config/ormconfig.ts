@@ -3,6 +3,7 @@ import { Playlist } from "../entities/PlayListEntity";
 import { PlaylistItem } from "../entities/PlayListItemEntity";
 import { VideoStatistics } from "../entities/VedioEntity";
 import * as dotenv from 'dotenv';
+import { I18nLanguage } from "../entities/i18nLanguageEntity";
 
 
 dotenv.config();
@@ -14,7 +15,7 @@ export const AppSource = new DataSource({
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
-    entities: [Playlist, PlaylistItem, VideoStatistics],
+    entities: [Playlist, PlaylistItem, VideoStatistics, I18nLanguage],
     synchronize: false,
     logging: false,
     migrations: ["src/migrations/**/*.ts"],

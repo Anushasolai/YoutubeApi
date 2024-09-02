@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import {
+  fetchAndStoreI18nLanguages,
   fetchAndStorePlaylistItems,
   fetchAndStorePlaylists,
   fetchAndStoreVideoStatistics,
 } from "../service/youtubeService";
 
-
-export const fetchPlaylists = async (req: Request, res: Response): Promise<Response> => {
+export const fetchPlaylists = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const playlists = await fetchAndStorePlaylists();
     return res.status(200).json({
@@ -22,8 +25,10 @@ export const fetchPlaylists = async (req: Request, res: Response): Promise<Respo
   }
 };
 
-
-export const getPlaylistItems = async (req: Request, res: Response): Promise<Response> => {
+export const getPlaylistItems = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { playlistId, channelId } = req.params;
 
   if (!channelId) {
@@ -31,7 +36,10 @@ export const getPlaylistItems = async (req: Request, res: Response): Promise<Res
   }
 
   try {
-    const playlistItems = await fetchAndStorePlaylistItems(playlistId, channelId);
+    const playlistItems = await fetchAndStorePlaylistItems(
+      playlistId,
+      channelId
+    );
     return res.status(200).json({
       data: playlistItems,
       message: `Playlist items for playlist ID ${playlistId} have been fetched and stored successfully.`,
@@ -45,7 +53,10 @@ export const getPlaylistItems = async (req: Request, res: Response): Promise<Res
   }
 };
 
-export const getVideoStatistics = async (req: Request, res: Response): Promise<Response> => {
+export const getVideoStatistics = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { videoId } = req.params;
 
   try {
@@ -58,6 +69,25 @@ export const getVideoStatistics = async (req: Request, res: Response): Promise<R
     console.error("Error in getVideoStatistics controller:", error);
     return res.status(500).json({
       error: "Failed to fetch and store video statistics",
+      details: error,
+    });
+  }
+};
+
+export const fetchI18nLanguages = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const i18nLanguages = await fetchAndStoreI18nLanguages();
+    return res.status(200).json({
+      data: i18nLanguages,
+      message: "i18n languages fetched and stored successfully",
+    });
+  } catch (error) {
+    console.error("Error in fetchI18nLanguages controller:", error);
+    return res.status(500).json({
+      error: "Failed to fetch and store i18n languages",
       details: error,
     });
   }
